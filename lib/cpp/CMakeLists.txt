@@ -98,13 +98,13 @@ else()
 endif()
 
 # If OpenSSL is not found or disabled just ignore the OpenSSL stuff
-if(OPENSSL_FOUND AND WITH_OPENSSL)
+if(OpenSSL_FOUND AND WITH_OPENSSL)
     list( APPEND thriftcpp_SOURCES
        src/thrift/transport/TSSLSocket.cpp
        src/thrift/transport/TSSLServerSocket.cpp
     )
-    include_directories(SYSTEM "${OPENSSL_INCLUDE_DIR}")
-    list(APPEND SYSLIBS "${OPENSSL_LIBRARIES}")
+    include_directories(SYSTEM "${OpenSSL_INCLUDE_DIR}")
+    list(APPEND SYSLIBS "${OpenSSL_LIBRARIES}")
 endif()
 
 if(UNIX)
@@ -152,11 +152,11 @@ ADD_PKGCONFIG_THRIFT(thrift)
 
 if(WITH_LIBEVENT)
     find_package(Libevent REQUIRED)  # Libevent comes with CMake support form upstream
-    include_directories(SYSTEM ${LIBEVENT_INCLUDE_DIRS})
+    include_directories(SYSTEM ${Libevent_INCLUDE_DIRS})
 
     ADD_LIBRARY_THRIFT(thriftnb ${thriftcppnb_SOURCES})
     LINK_AGAINST_THRIFT_LIBRARY(thriftnb thrift)
-    TARGET_LINK_LIBRARIES_THRIFT(thriftnb ${SYSLIBS} ${LIBEVENT_LIBRARIES})
+    TARGET_LINK_LIBRARIES_THRIFT(thriftnb ${SYSLIBS} ${Libevent_LIBRARIES})
     ADD_PKGCONFIG_THRIFT(thrift-nb)
 endif()
 
